@@ -1,18 +1,24 @@
 function solution(progresses, speeds) {
-    const answer = [];
-    const daysLeft = progresses.map((progress, index) => Math.ceil((100 - progress) / speeds[index]));
-
-    while (daysLeft.length > 0) {
-        let deployCount = 1;
-        const daysUntilDeploy = daysLeft.shift();
-
-        while (daysLeft.length > 0 && daysUntilDeploy >= daysLeft[0]) {
-            daysLeft.shift();
+    let answer = [];
+    
+    while(speeds.length > 0) {
+        for(let i in speeds) {
+            if (progresses[i] < 100) {
+                progresses[i] += speeds[i];  
+            }
+        }
+        
+        let deployCount = 0;
+        while (progresses[0] >= 100) {
+            progresses.shift();
+            speeds.shift();
             deployCount++;
         }
-
-        answer.push(deployCount);
+        if (deployCount > 0) {
+                answer.push(deployCount);
+            }
+        
     }
-
+    
     return answer;
 }
